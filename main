@@ -1,0 +1,18 @@
+import requests
+import json
+
+print('Search by name:')
+search = input() #User inputs a name which will be queried by the API
+
+URL = f'https://code-challenge.stacc.dev/api/pep?name={search}' #API query
+response = requests.get(URL)
+
+full_data = json.loads(response.text)['hits']
+count = 0
+for x in full_data:
+    print(full_data[count]['name'])
+    print('Sanctions:' + full_data[count]['sanctions'])
+    count += 1
+
+
+print(response.status_code)
