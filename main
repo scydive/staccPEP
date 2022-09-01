@@ -1,18 +1,32 @@
+import discord
+from discord.ext import commands
 import requests
 import json
 
-print('Search by name:')
-search = input() #User inputs a name which will be queried by the API
+TOKEN = ('Enter Discord bot token here')
 
-URL = f'https://code-challenge.stacc.dev/api/pep?name={search}' #API query
-response = requests.get(URL)
-
-full_data = json.loads(response.text)['hits']
-count = 0
-for x in full_data:
-    print(full_data[count]['name'])
-    print('Sanctions:' + full_data[count]['sanctions'])
-    count += 1
+intents = discord.Intents.all()
+client = commands.Bot(command_prefix='.', intents=intents)
 
 
-print(response.status_code)
+@client.event
+async def on_ready():
+    print(f'{client.user} has connected') # Visual indicator bot is ready
+
+
+@client.command()
+async def pepTest(ctx, *, search): # Bot command that calls the API, searching by the name given.
+    await ctx.send(f'Querying the PEP API for: {search}')
+    URL = f'https://code-challenge.stacc.dev/api/pep?name={search}'
+    response = requests.get(URL)
+    full_data = json.loads(response.text)['hits'] #loads the information from the API call
+    count = 0
+    for x in full_data[:10]: #Since vague name queries like 'Jens' could result in hundreds of matches and messages, the bot only lists the first 10 and stops counting thereafter.
+        await ctx.send(full_data[count]['name'])
+        count += 1
+    if count == 10: # If else can be removed, but seeing how it is only be called once performance hit should be minimal
+        await ctx.send('Returned 10+ hits, only the first 10 are listed. Searching by full name might yield better results')
+    else:
+        await ctx.send(f'returned {count} number of hits')
+
+client.run(TOKEN)
