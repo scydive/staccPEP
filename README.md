@@ -18,10 +18,14 @@ I developer portal trykker du nå på OAuth2, så URL generator.
 På scopes, velg 'bot'. På bot permissions velg 'send messages'
 Kopier URLen nederst og følg den, velg så en server som du vil ha botten til i, du trenger de nødvendige privilegiene til dette.
 Kjør python programmet
+
 Skriv .pepSjekk VALGFRITT NAVN. 
+
 Dersom et vanlig fornavn/etternavn blir brukt vil en stor del resultater forekomme. For å spare APIen og for å unngå å sende 100+ meldinger blir max 10 navn oppgitt.
+
 For best resultat, oppgi dermed full navn.
-Avhengigheter er Discord og Requests.
+
+Avhengigheter er discord.py og requests.
 
 
 
