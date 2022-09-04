@@ -1,6 +1,7 @@
 # Oppgavebeskrivelse.
 Jeg har valgt å ta i bruk KYC APIen til Stacc for å utføre PEP sjekker av personer med et Python program.
 For å gjøre prosjektet mer interessant er koden i form av en discord bot, både input og output skjer på discord.
+Dersom botten er aktiv på en server kan den kjøres med å sende .pepSjekk Jens Stoltenberg (eller annet navn) i en discord kanal som botten har tilgang til.
 
 
 # Hvordan kjøre prosjektet
