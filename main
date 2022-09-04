@@ -3,30 +3,25 @@ from discord.ext import commands
 import requests
 import json
 
-TOKEN = ('Enter Discord bot token here')
+TOKEN = ('DISCORD TOKEN HERE')
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix='.', intents=intents)
 
 
-@client.event
-async def on_ready():
-    print(f'{client.user} has connected') # Visual indicator bot is ready
-
-
 @client.command()
-async def pepTest(ctx, *, search): # Bot command that calls the API, searching by the name given.
-    await ctx.send(f'Querying the PEP API for: {search}')
+async def pepSjekk(ctx, *, search): # funksjonen som blir kalt når brukeren skriver .pepSjekk, tar et navn som argument.
+    await ctx.send(f'Søker etter: {search}')
     URL = f'https://code-challenge.stacc.dev/api/pep?name={search}'
     response = requests.get(URL)
-    full_data = json.loads(response.text)['hits'] #loads the information from the API call
+    full_data = json.loads(response.text)['hits'] #laster informasjon fra APIen
     count = 0
-    for x in full_data[:10]: #Since vague name queries like 'Jens' could result in hundreds of matches and messages, the bot only lists the first 10 and stops counting thereafter.
+    for x in full_data[:10]: # Begrenser funksjonen til å bare skrive opp til 10 navn.
         await ctx.send(full_data[count]['name'])
         count += 1
-    if count == 10: # If else can be removed, but seeing how it is only be called once performance hit should be minimal
-        await ctx.send('Returned 10+ hits, only the first 10 are listed. Searching by full name might yield better results')
+    if count == 10: # Aktiverer dersom 10 eller flere navn kom som resultat av søket.
+        await ctx.send('Returnerte 10+ treff. Søk med fullt navn gir færre resultat.')
     else:
-        await ctx.send(f'returned {count} number of hits')
+        await ctx.send(f'Returnerte {count} treff')
 
 client.run(TOKEN)
